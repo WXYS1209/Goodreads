@@ -1,0 +1,98 @@
+---
+title: "Proposal Group 7"
+output: html_document
+date: "2023-11-08"
+---
+
+```{r setup, include=FALSE, warning=FALSE}
+knitr::opts_chunk$set(eval = F)
+```
+
+
+
+# Data Introduction
+Goodreads is a book-focused website that helps people keep track of what they're reading and lets they write book reviews. It's a site for readers and book recommendations, with the goal of helping people find and share books they love. The [Goodreads Spoilers dataset](https://www.kaggle.com/datasets/pypiahmad/goodreads-book-reviews/?select=goodreads_reviews_spoiler_raw.json) embodies a trove of reviews from the Goodreads book review platform, with a special emphasis on annotated "spoiler" information from each review. The structure of the data set is as follows:
+
+goodreads_data/                    
+├── goodreads_reviews_dedup.json.gz(16.7GB)      
+├── goodreads_reviews_spoiler.json.gz(1.88GB)  
+
+
+
+# Data Downloading
+```{python}
+import pandas as pd
+import requests
+import os
+
+DIR = './'
+file_names = pd.read_csv(os.path.join(DIR, 'dataset_names.csv'))
+file_name_type_mapping = dict(zip(file_names['name'].values, file_names['type'].values))
+file_name_url_mapping = {}
+
+for fname in file_name_type_mapping:
+    ftype = file_name_type_mapping[fname]
+    if ftype == "complete":
+        url = 'https://datarepo.eng.ucsd.edu/mcauley_group/gdrive/goodreads/'+fname
+        file_name_url_mapping[fname] = url
+    elif ftype == "byGenre":
+        url = 'https://datarepo.eng.ucsd.edu/mcauley_group/gdrive/goodreads/byGenre/'+fname
+        file_name_url_mapping[fname] = url
+        
+def download_by_name(fname, local_filename):
+    if fname in file_name_url_mapping:
+        url = file_name_url_mapping[fname]
+        with requests.get(url, stream=True) as r:
+            r.raise_for_status()
+            with open(local_filename, 'wb') as f:
+                for chunk in r.iter_content(chunk_size=8192):
+                    f.write(chunk)
+        print('Dataset', fname, 'has been downloaded!')
+    else:
+        print('Dataset', fname, 'can not be found!')
+        
+OUT_DIR = './goodreads_data'
+if not os.path.exists(OUT_DIR):
+    os.makedirs(OUT_DIR)
+
+output_path = os.path.join(OUT_DIR, 'goodreads_reviews_dedup.json.gz')
+download_by_name('goodreads_reviews_dedup.json.gz', output_path)
+
+output_path = os.path.join(OUT_DIR, 'goodreads_reviews_spoiler.json.gz')
+download_by_name('goodreads_reviews_spoiler.json.gz', output_path)
+```
+
+# Data Reading
+```{python}
+import gzip
+import json
+
+def load_data(file_name, head = 500):
+    count = 0
+    data = []
+    with gzip.open(file_name) as fin:
+        for l in fin:
+            d = json.loads(l)
+            count += 1
+            data.append(d)
+            
+            # break if reaches the 100th line
+            if (head is not None) and (count > head):
+                break
+    return data
+DIR = './goodreads_data'
+df_dedup = load_data(os.path.join(DIR, 'goodreads_reviews_dedup.json.gz'))
+df_review = load_data(os.path.join(DIR, 'goodreads_reviews_spoiler.json.gz'))
+```
+
+There are 11 variables in `df_dedup`, which is the complete book reviews, and 7 variables in `df_review`, which is the English review subset for spoiler detection. The first 11 variables contains user_id, book_id, review_id, rating, review_text, time, and other information, while the 7 variables in the second data set contains a new varible, has_spoiler, which can tell whether the review text spoils the book.
+
+# Methods and Algorithms
+We intend to implement Natural Language Processing (NLP) and Sentiment Analysis on the entirety of the review collection, with the objective of identifying pivotal keywords and determining the average sentiment score for each book. Subsequently, we will categorize the data set based on the presence or absence of spoilers in the reviews. This will be followed by a re-evaluation of the data. Our aim is to uncover distinct differences between the two categories of reviews: those containing spoilers and those that do not. This analysis is expected to yield insights that could be instrumental in enhancing spoiler detection mechanisms on the Goodreads website.
+
+# Acknowledgement 
+Fine-grained spoiler detection from large-scale review corpora
+Mengting Wan, Rishabh Misra, Ndapa Nakashole, Julian McAuley
+ACL, 2019
+[PDF](https://cseweb.ucsd.edu/~jmcauley/pdfs/acl19a.pdf)
+

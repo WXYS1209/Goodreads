@@ -1,17 +1,18 @@
 ---
-title: "report"
+title: "STAT 605 Project Report"
 output: html_document
 date: "2023-12-10"
+author: "Group 7"
 ---
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
 ```
-**Introduction:**
+## Introduction
 
 The “Goodreads” analysis project aims to identify key differences between reviews containing spoilers and those without. The team analyzed a dataset composed of general review information and spoiler-specific data from Goodreads. By employing sentiment analysis and Latent Dirichlet Allocation (LDA), the team was able to explore the influence of spoiler reviews on readers’ emotions and uncover hidden topics within the reviews. The study concluded that the spoiler reviews significantly impacted other readers’ experiences and provided insights for tailoring book themes to different audiences, enhancing online bookstores and library recommendation systems. Future work includes developing models to detect spoilers in reviews and improving sentiment analysis techniques for more nuanced insights. 
 
-**Analytical Process：**
+## Analytical Process
 
 This project entails a detailed analysis of Goodreads reviews, focusing on the impact of spoilers on reader sentiment. The workflow is divided into three main phases: data preparation, sentiment analysis, and result visualization, each facilitated by a specific R script.
 
@@ -33,13 +34,13 @@ All these processes are conducted in parallel, significantly reducing the time r
 
 In addition to the aforementioned phases, our project integrates an advanced topic modeling component using Latent Dirichlet Allocation (LDA). This process, executed outside the main CHTC framework, enriches our analysis by uncovering underlying themes in the Goodreads reviews. LDA effectively identifies five distinct topics, ranging from 'General Book Appreciation' to 'Series and Sequels,' by analyzing word frequencies and distributions within the review text. This thematic analysis not only offers deeper insights into the content of the reviews but also enhances our understanding of how different themes may influence reader sentiment, especially in the context of spoilers. The LDA outputs, revealing predominant themes like 'Character and Story Analysis' and 'Personal and Romantic Themes,' are instrumental in dissecting the nuanced ways readers discuss and perceive various aspects of the books. Incorporating these findings into our workflow allows for a more comprehensive analysis, where sentiment scores and spoiler impacts are now contextualized within these thematic frameworks, offering a richer, multi-dimensional view of reader experiences and preferences.
 
-**Conclusion:**
+## Conclusion
 
 This method provides an in-depth analysis of sentiments in Goodreads book reviews, focusing on the effect of spoilers. This is particularly valuable for authors, publishers, and readers, as it sheds light on how spoilers in reviews impact potential readers' perceptions and interests. Such insights are crucial for understanding reader engagement and interaction in online book communities.
 
 Future developments in literary analysis and review management show promise. These include creating specific models to detect spoilers in reviews, enhancing sentiment analysis by using phrases for more nuanced ratings, and integrating sentiment analysis with Latent Dirichlet Allocation (LDA). This integration aims to filter critical reviews, providing readers and stakeholders with more precise information about books, thereby enriching the reader experience in the digital age.
 
-**Contributions:**
+## Contributions
 
 | Members       | Proposal | Coding | Presentation | Report |
 |---------------|----------|--------|--------------|--------|

@@ -23,8 +23,8 @@ The second phase involves sentiment analysis through the sentiment.R script. Uti
 In the final phase, the analyze_post.R script visualizes the analysis results. It generates boxplots and word clouds, contrasting the sentiment scores of spoiler-laden reviews with those devoid of spoilers. This visual representation highlights the neutral sentiment tendency in spoiler reviews, as opposed to the wider sentiment range in non-spoiler reviews.
 
 <div>
-  <img src="All.png" alt="All Analysis" style="width: 50%; float: left; padding-right: 10px;"/>
-  <img src="Mean.png" alt="Mean Analysis" style="width: 50%; float: left;"/>
+  <img src="https://github.com/WXYS1209/Goodreads/blob/main/spoiler_sent_analysis/All.png" alt="All Analysis" style="width: 50%; float: left; padding-right: 10px;"/>
+  <img src="https://github.com/WXYS1209/Goodreads/blob/main/spoiler_sent_analysis/Mean.png" alt="Mean Analysis" style="width: 50%; float: left;"/>
 </div>
 
 
